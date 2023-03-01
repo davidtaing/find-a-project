@@ -47,6 +47,28 @@ export default function Home() {
 
       <section className="mx-auto mb-20 grid max-w-6xl grid-cols-12 gap-6">
         <div className="col-span-12">
+          <h2 className="text-center">Here&apos;s How You Can Win!</h2>
+        </div>
+        <article className="col-span-3 rounded-md border border-stone-300 bg-stone-100 p-6 text-center dark:border-stone-800 dark:bg-stone-800">
+          <p className="m-0">🎯</p>
+          <p className="m-0 font-medium">Build In-Demand Skills</p>
+        </article>
+        <article className="col-span-3 rounded-md border border-stone-300 bg-stone-100 p-6 text-center dark:border-stone-800 dark:bg-stone-800">
+          <p className="m-0">💪</p>
+          <p className="m-0 font-medium">Showcase Your Work</p>
+        </article>
+        <article className="col-span-3 rounded-md border border-stone-300 bg-stone-100 p-6 text-center dark:border-stone-800 dark:bg-stone-800">
+          <p className="m-0">🤝</p>
+          <p className="m-0 font-medium">Make New Friends</p>
+        </article>
+        <article className="col-span-3 rounded-md border border-stone-300 bg-stone-100 p-6 text-center dark:border-stone-800 dark:bg-stone-800">
+          <p className="m-0">🧑‍🎓</p>
+          <p className="m-0 font-medium">Work With Mentors</p>
+        </article>
+      </section>
+
+      <section className="mx-auto mb-20 grid max-w-6xl grid-cols-12 gap-6">
+        <div className="col-span-12">
           <h2 className="text-center">About Find a Project</h2>
         </div>
         <div className="col-span-6 col-start-4 rounded-md border border-stone-300 bg-stone-100 p-6 dark:border-stone-800 dark:bg-stone-800">
