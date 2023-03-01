@@ -1,0 +1,29 @@
+name: Main
+
+on:
+  push:
+    branches: [main]
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3.6.0
+        with:
+          node-version: 18.x
+          
+      - name: Setup pnpm and dependencies
+        uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
+          run_install: true
+          
+      - name: Run tests
+        run: pnpm test
+        
+      - name: Build
+        run: pnpm build
