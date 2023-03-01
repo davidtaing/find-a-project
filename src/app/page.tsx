@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ["latin"] });
 export default function Home() {
   return (
     <main
-      className="m-h-screen md: prose  prose-xl prose-stone w-full max-w-full p-4 dark:prose-invert md:p-0"
+      className="m-h-screen prose prose-xl prose-stone w-full max-w-full p-4 dark:prose-invert md:p-6 lg:p-0"
       aria-label="Home Page"
     >
       <section className="mx-auto my-20 grid h-96 max-w-6xl grid-cols-4 md:mb-0 lg:grid-cols-12 lg:gap-6">
@@ -23,11 +23,11 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="mx-auto mb-20 grid max-w-6xl grid-cols-4 gap-6 lg:grid-cols-12">
-        <div className="col-span-4 lg:col-span-12">
+      <section className="mx-auto mb-20 grid max-w-6xl grid-cols-4 gap-6 md:grid-cols-8 lg:grid-cols-12">
+        <div className="col-span-4 md:col-span-8 lg:col-span-12">
           <h2 className="text-center">Featured Projects</h2>
         </div>
-        <article className="col-span-4 h-80 rounded-md border border-stone-200 bg-stone-100 dark:border-stone-800 dark:bg-stone-800 lg:col-span-6">
+        <article className="col-span-4 h-80 rounded-md border border-stone-200 bg-stone-100 dark:border-stone-800 dark:bg-stone-800 md:col-span-6 md:col-start-2 lg:col-span-6">
           Project 1
         </article>
         <article className="col-span-4 h-80 rounded-md border border-stone-200 bg-stone-100 dark:border-stone-800 dark:bg-stone-800 lg:col-span-6">
@@ -45,8 +45,8 @@ export default function Home() {
         </article>
       </section>
 
-      <section className="mx-auto mb-20 grid max-w-6xl grid-cols-4 gap-6 lg:grid-cols-12">
-        <div className="col-span-4 lg:col-span-12">
+      <section className="mx-auto mb-20 grid max-w-6xl grid-cols-4 gap-6 md:grid-cols-8 lg:grid-cols-12">
+        <div className="col-span-4 md:col-span-8 lg:col-span-12">
           <h2 className="text-center">Here&apos;s How You Can Win!</h2>
         </div>
         <article className="col-span-4 rounded-md border border-stone-300 bg-stone-100 p-6 text-center dark:border-stone-800 dark:bg-stone-800 lg:col-span-3">
@@ -67,11 +67,11 @@ export default function Home() {
         </article>
       </section>
 
-      <section className="mx-auto mb-20 grid max-w-6xl grid-cols-4 lg:grid-cols-12 lg:gap-6">
-        <div className="col-span-4 lg:col-span-12">
+      <section className="mx-auto mb-20 grid max-w-6xl grid-cols-4 md:grid-cols-8 lg:grid-cols-12 lg:gap-6">
+        <div className="col-span-4 md:col-span-8 lg:col-span-12">
           <h2 className="text-center">About Find a Project</h2>
         </div>
-        <div className="col-span-4 rounded-md border border-stone-300 bg-stone-100 p-6 dark:border-stone-800 dark:bg-stone-800 lg:col-span-6 lg:col-start-4">
+        <div className="col-span-4 rounded-md border border-stone-300 bg-stone-100 p-6 dark:border-stone-800 dark:bg-stone-800 md:col-span-6 md:col-start-2 lg:col-span-6 lg:col-start-4">
           <div className="flex items-center gap-4 ">
             <Image
               className="m-0 rounded-full"
