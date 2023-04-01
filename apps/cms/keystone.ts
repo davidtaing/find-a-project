@@ -21,7 +21,7 @@ export default withAuth(
       //   see https://keystonejs.com/docs/guides/choosing-a-database#title
       provider: "mysql",
       url:
-        process.env.DATABASE_URL ??
+        process.env.CMS_DATABASE_URL ??
         "mysql://root:dbpass@localhost:3306/find-a-project",
       prismaClientPath: "node_modules/.prisma/client",
     },
