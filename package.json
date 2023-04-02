@@ -8,7 +8,7 @@
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "build:cms": "cd apps/cms && pnpm run build",
-    "deploy:cms": "pnpm run deploy",
+    "deploy:cms": "cd apps/cms && pnpm run deploy",
     "start:cms": "cd apps/cms && pnpm run start"
   },
   "devDependencies": {
