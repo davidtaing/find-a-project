@@ -1,7 +1,10 @@
 // Welcome to Keystone!
 //
 // This file is what Keystone uses as the entry-point to your headless backend
-//
+
+import * as dotenv from "dotenv"; // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
+dotenv.config();
+
 // Keystone imports the default export of this file, expecting a Keystone configuration object
 //   you can find out more at https://keystonejs.com/docs/apis/config
 import { config } from "@keystone-6/core";
@@ -22,7 +25,7 @@ export default withAuth(
       provider: "postgresql",
       url:
         process.env.CMS_DATABASE_URL ??
-        "mysql://root:dbpass@localhost:3306/find-a-project",
+        "postgresql://postgres:postgres@localhost:5432/find-a-project",
       prismaClientPath: "node_modules/.prisma/client",
     },
     server: {
