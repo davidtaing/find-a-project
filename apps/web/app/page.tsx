@@ -106,6 +106,7 @@ export default function Home() {
             nulla, ratione provident assumenda! Nostrum architecto recusandae
             voluptates praesentium sequi. Ex?
           </p>
+          <span>Trigger workflow runs</span>
         </div>
       </section>
     </main>
