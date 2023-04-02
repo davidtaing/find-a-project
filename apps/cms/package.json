@@ -7,7 +7,8 @@
     "start": "keystone start",
     "build": "keystone build",
     "postinstall": "keystone build --no-ui --frozen",
-    "deploy": "keystone prisma migrate deploy"
+    "deploy": "keystone prisma migrate deploy",
+    "migrate-dev": "keystone prisma migrate dev"
   },
   "dependencies": {
     "@keystone-6/auth": "^7.0.0",

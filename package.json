@@ -9,7 +9,8 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "build:cms": "cd apps/cms && pnpm run build",
     "deploy:cms": "cd apps/cms && pnpm run deploy",
-    "start:cms": "cd apps/cms && pnpm run start"
+    "start:cms": "cd apps/cms && pnpm run start",
+    "migrate-dev:cms": "cd apps/cms && pnpm run migrate-dev"
   },
   "devDependencies": {
     "dotenv-cli": "latest"
