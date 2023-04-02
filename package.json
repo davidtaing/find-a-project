@@ -6,7 +6,9 @@
     "build": "turbo run build",
     "dev": "dotenv -- turbo run dev",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "deploy:cms": "cd apps/cms && pnpm run deploy",
+    "start:cms": "cd apps/cms && pnpm run start"
   },
   "devDependencies": {
     "dotenv-cli": "latest"
