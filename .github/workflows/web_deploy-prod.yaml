@@ -15,9 +15,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 8.1.0
+      - name: Setup pnpm and deps
+        uses: ./.github/workflows/setup-pnpm-and-deps.yaml
 
       - name: Install Vercel CLI
         run: npm install --global vercel@canary

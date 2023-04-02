@@ -1,0 +1,27 @@
+name: Setup pnpm and dependencies
+
+on: workflow_call
+
+jobs:
+  Setup-pnpm-and-Deps:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup pnpm and install deps
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.1.0
+          run_install: true
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
