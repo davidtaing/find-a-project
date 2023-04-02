@@ -22,7 +22,7 @@ export default withAuth(
       provider: "postgresql",
       url:
         process.env.CMS_DATABASE_URL ??
-        "mysql://root:dbpass@localhost:3306/find-a-project",
+        "postgresql://postgres:postgres@localhost:5432/find-a-project",
       prismaClientPath: "node_modules/.prisma/client",
     },
     server: {
