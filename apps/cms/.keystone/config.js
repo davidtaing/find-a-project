@@ -38,11 +38,18 @@ var import_core2 = require("@keystone-6/core");
 
 // schema.ts
 var import_core = require("@keystone-6/core");
-var import_access = require("@keystone-6/core/access");
 var import_fields = require("@keystone-6/core/fields");
+var isAdmin = ({ session: session2 }) => session2?.data.isAdmin;
 var lists = {
   User: (0, import_core.list)({
-    access: import_access.allowAll,
+    access: {
+      operation: {
+        query: ({ session: session2, context, listKey, operation }) => true,
+        create: isAdmin,
+        update: isAdmin,
+        delete: isAdmin
+      }
+    },
     fields: {
       name: (0, import_fields.text)({ validation: { isRequired: true } }),
       email: (0, import_fields.text)({
@@ -60,7 +67,14 @@ var lists = {
     }
   }),
   Profile: (0, import_core.list)({
-    access: import_access.allowAll,
+    access: {
+      operation: {
+        query: ({ session: session2, context, listKey, operation }) => true,
+        create: isAdmin,
+        update: isAdmin,
+        delete: isAdmin
+      }
+    },
     fields: {
       name: (0, import_fields.relationship)({
         ref: "User.profile",
@@ -79,7 +93,14 @@ var lists = {
     }
   }),
   Organization: (0, import_core.list)({
-    access: import_access.allowAll,
+    access: {
+      operation: {
+        query: ({ session: session2, context, listKey, operation }) => true,
+        create: isAdmin,
+        update: isAdmin,
+        delete: isAdmin
+      }
+    },
     fields: {
       name: (0, import_fields.text)({ validation: { isRequired: true } }),
       email: (0, import_fields.text)(),
@@ -96,7 +117,14 @@ var lists = {
     }
   }),
   Project: (0, import_core.list)({
-    access: import_access.allowAll,
+    access: {
+      operation: {
+        query: ({ session: session2, context, listKey, operation }) => true,
+        create: ({ session: session2, context, listKey, operation }) => true,
+        update: isAdmin,
+        delete: isAdmin
+      }
+    },
     fields: {
       name: (0, import_fields.text)({ validation: { isRequired: true } }),
       website: (0, import_fields.text)(),

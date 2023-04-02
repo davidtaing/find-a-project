@@ -27,9 +27,26 @@ import { document } from "@keystone-6/fields-document";
 // the generated types from '.keystone/types'
 import type { Lists } from ".keystone/types";
 
+type Session = {
+  data: {
+    id: string;
+    isAdmin: boolean;
+    name: string;
+  };
+};
+
+const isAdmin = ({ session }: { session: Session }) => session?.data.isAdmin;
+
 export const lists: Lists = {
   User: list({
-    access: allowAll,
+    access: {
+      operation: {
+        query: ({ session, context, listKey, operation }) => true,
+        create: isAdmin,
+        update: isAdmin,
+        delete: isAdmin,
+      },
+    },
 
     fields: {
       name: text({ validation: { isRequired: true } }),
@@ -51,7 +68,14 @@ export const lists: Lists = {
   }),
 
   Profile: list({
-    access: allowAll,
+    access: {
+      operation: {
+        query: ({ session, context, listKey, operation }) => true,
+        create: isAdmin,
+        update: isAdmin,
+        delete: isAdmin,
+      },
+    },
 
     fields: {
       name: relationship({
@@ -73,7 +97,14 @@ export const lists: Lists = {
   }),
 
   Organization: list({
-    access: allowAll,
+    access: {
+      operation: {
+        query: ({ session, context, listKey, operation }) => true,
+        create: isAdmin,
+        update: isAdmin,
+        delete: isAdmin,
+      },
+    },
 
     fields: {
       name: text({ validation: { isRequired: true } }),
@@ -94,7 +125,14 @@ export const lists: Lists = {
   }),
 
   Project: list({
-    access: allowAll,
+    access: {
+      operation: {
+        query: ({ session, context, listKey, operation }) => true,
+        create: ({ session, context, listKey, operation }) => true,
+        update: isAdmin,
+        delete: isAdmin,
+      },
+    },
 
     fields: {
       name: text({ validation: { isRequired: true } }),
