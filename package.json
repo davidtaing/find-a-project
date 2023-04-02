@@ -4,9 +4,12 @@
   "license": "ISC",
   "scripts": {
     "build": "turbo run build",
-    "dev": "turbo run dev",
+    "dev": "dotenv -- turbo run dev",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
+  },
+  "devDependencies": {
+    "dotenv-cli": "latest"
   },
   "packageManager": "pnpm@8.1.0"
 }
