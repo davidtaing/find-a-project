@@ -6,6 +6,8 @@ jobs:
   Setup-pnpm-and-Deps:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
+
       - name: Setup pnpm and install deps
         uses: pnpm/action-setup@v2
         with:
