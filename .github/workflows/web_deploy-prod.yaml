@@ -1,4 +1,4 @@
-name: Vercel Production Deployment
+name: Web - Vercel Production Deployment
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_WEB_PROJECT_ID }}
@@ -10,7 +10,7 @@ on:
       - "apps/web/**"
       - "packages/**"
 jobs:
-  Deploy-Production:
+  Web-Deploy-Production:
     runs-on: ubuntu-latest
     defaults:
       run:
