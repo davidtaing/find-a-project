@@ -13,28 +13,55 @@ generator client {
 }
 
 model User {
+  id                      String         @id @default(cuid())
+  name                    String         @default("")
+  email                   String         @unique @default("")
+  password                String
+  isAdmin                 Boolean        @default(false)
+  profile                 Profile?       @relation("Profile_name")
+  organizations           Organization[] @relation("Organization_members")
+  projects                Project[]      @relation("Project_members")
+  createdAt               DateTime?      @default(now())
+  from_Organization_admin Organization[] @relation("Organization_admin")
+  from_Project_admin      Project[]      @relation("Project_admin")
+}
+
+model Profile {
   id        String    @id @default(cuid())
-  name      String    @default("")
-  email     String    @unique @default("")
-  password  String
-  isAdmin   Boolean   @default(false)
-  posts     Post[]    @relation("Post_author")
+  name      User?     @relation("Profile_name", fields: [nameId], references: [id])
+  nameId    String?   @unique @map("name")
+  website   String    @default("")
+  linkedin  String    @default("")
+  github    String    @default("")
+  gitlab    String    @default("")
   createdAt DateTime? @default(now())
 }
 
-model Post {
-  id       String  @id @default(cuid())
-  title    String  @default("")
-  content  Json    @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
-  author   User?   @relation("Post_author", fields: [authorId], references: [id])
-  authorId String? @map("author")
-  tags     Tag[]   @relation("Post_tags")
-
-  @@index([authorId])
+model Organization {
+  id        String    @id @default(cuid())
+  name      String    @default("")
+  email     String    @default("")
+  website   String    @default("")
+  linkedin  String    @default("")
+  github    String    @default("")
+  gitlab    String    @default("")
+  admin     User[]    @relation("Organization_admin")
+  members   User[]    @relation("Organization_members")
+  projects  Project[] @relation("Project_organization")
+  createdAt DateTime? @default(now())
 }
 
-model Tag {
-  id    String @id @default(cuid())
-  name  String @default("")
-  posts Post[] @relation("Post_tags")
+model Project {
+  id             String        @id @default(cuid())
+  name           String        @default("")
+  website        String        @default("")
+  linkedin       String        @default("")
+  repository     String        @default("")
+  admin          User[]        @relation("Project_admin")
+  members        User[]        @relation("Project_members")
+  organization   Organization? @relation("Project_organization", fields: [organizationId], references: [id])
+  organizationId String?       @map("organization")
+  description    String        @default("")
+
+  @@index([organizationId])
 }
