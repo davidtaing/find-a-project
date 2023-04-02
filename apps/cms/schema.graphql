@@ -6,8 +6,12 @@ type User {
   name: String
   email: String
   password: PasswordState
-  posts(where: PostWhereInput! = {}, orderBy: [PostOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: PostWhereUniqueInput): [Post!]
-  postsCount(where: PostWhereInput! = {}): Int
+  isAdmin: Boolean
+  profile: Profile
+  organizations(where: OrganizationWhereInput! = {}, orderBy: [OrganizationOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: OrganizationWhereUniqueInput): [Organization!]
+  organizationsCount(where: OrganizationWhereInput! = {}): Int
+  projects(where: ProjectWhereInput! = {}, orderBy: [ProjectOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ProjectWhereUniqueInput): [Project!]
+  projectsCount(where: ProjectWhereInput! = {}): Int
   createdAt: DateTime
 }
 
@@ -29,7 +33,10 @@ input UserWhereInput {
   id: IDFilter
   name: StringFilter
   email: StringFilter
-  posts: PostManyRelationFilter
+  isAdmin: BooleanFilter
+  profile: ProfileWhereInput
+  organizations: OrganizationManyRelationFilter
+  projects: ProjectManyRelationFilter
   createdAt: DateTimeNullableFilter
 }
 
@@ -78,10 +85,21 @@ input NestedStringFilter {
   not: NestedStringFilter
 }
 
-input PostManyRelationFilter {
-  every: PostWhereInput
-  some: PostWhereInput
-  none: PostWhereInput
+input BooleanFilter {
+  equals: Boolean
+  not: BooleanFilter
+}
+
+input OrganizationManyRelationFilter {
+  every: OrganizationWhereInput
+  some: OrganizationWhereInput
+  none: OrganizationWhereInput
+}
+
+input ProjectManyRelationFilter {
+  every: ProjectWhereInput
+  some: ProjectWhereInput
+  none: ProjectWhereInput
 }
 
 input DateTimeNullableFilter {
@@ -99,6 +117,7 @@ input UserOrderByInput {
   id: OrderDirection
   name: OrderDirection
   email: OrderDirection
+  isAdmin: OrderDirection
   createdAt: OrderDirection
 }
 
@@ -111,15 +130,31 @@ input UserUpdateInput {
   name: String
   email: String
   password: String
-  posts: PostRelateToManyForUpdateInput
+  isAdmin: Boolean
+  profile: ProfileRelateToOneForUpdateInput
+  organizations: OrganizationRelateToManyForUpdateInput
+  projects: ProjectRelateToManyForUpdateInput
   createdAt: DateTime
 }
 
-input PostRelateToManyForUpdateInput {
-  disconnect: [PostWhereUniqueInput!]
-  set: [PostWhereUniqueInput!]
-  create: [PostCreateInput!]
-  connect: [PostWhereUniqueInput!]
+input ProfileRelateToOneForUpdateInput {
+  create: ProfileCreateInput
+  connect: ProfileWhereUniqueInput
+  disconnect: Boolean
+}
+
+input OrganizationRelateToManyForUpdateInput {
+  disconnect: [OrganizationWhereUniqueInput!]
+  set: [OrganizationWhereUniqueInput!]
+  create: [OrganizationCreateInput!]
+  connect: [OrganizationWhereUniqueInput!]
+}
+
+input ProjectRelateToManyForUpdateInput {
+  disconnect: [ProjectWhereUniqueInput!]
+  set: [ProjectWhereUniqueInput!]
+  create: [ProjectCreateInput!]
+  connect: [ProjectWhereUniqueInput!]
 }
 
 input UserUpdateArgs {
@@ -131,58 +166,71 @@ input UserCreateInput {
   name: String
   email: String
   password: String
-  posts: PostRelateToManyForCreateInput
+  isAdmin: Boolean
+  profile: ProfileRelateToOneForCreateInput
+  organizations: OrganizationRelateToManyForCreateInput
+  projects: ProjectRelateToManyForCreateInput
   createdAt: DateTime
 }
 
-input PostRelateToManyForCreateInput {
-  create: [PostCreateInput!]
-  connect: [PostWhereUniqueInput!]
+input ProfileRelateToOneForCreateInput {
+  create: ProfileCreateInput
+  connect: ProfileWhereUniqueInput
 }
 
-type Post {
+input OrganizationRelateToManyForCreateInput {
+  create: [OrganizationCreateInput!]
+  connect: [OrganizationWhereUniqueInput!]
+}
+
+input ProjectRelateToManyForCreateInput {
+  create: [ProjectCreateInput!]
+  connect: [ProjectWhereUniqueInput!]
+}
+
+type Profile {
   id: ID!
-  title: String
-  content: Post_content_Document
-  author: User
-  tags(where: TagWhereInput! = {}, orderBy: [TagOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: TagWhereUniqueInput): [Tag!]
-  tagsCount(where: TagWhereInput! = {}): Int
+  name: User
+  website: String
+  linkedin: String
+  github: String
+  gitlab: String
+  createdAt: DateTime
 }
 
-type Post_content_Document {
-  document(hydrateRelationships: Boolean! = false): JSON!
-}
-
-input PostWhereUniqueInput {
+input ProfileWhereUniqueInput {
   id: ID
 }
 
-input PostWhereInput {
-  AND: [PostWhereInput!]
-  OR: [PostWhereInput!]
-  NOT: [PostWhereInput!]
+input ProfileWhereInput {
+  AND: [ProfileWhereInput!]
+  OR: [ProfileWhereInput!]
+  NOT: [ProfileWhereInput!]
   id: IDFilter
-  title: StringFilter
-  author: UserWhereInput
-  tags: TagManyRelationFilter
+  name: UserWhereInput
+  website: StringFilter
+  linkedin: StringFilter
+  github: StringFilter
+  gitlab: StringFilter
+  createdAt: DateTimeNullableFilter
 }
 
-input TagManyRelationFilter {
-  every: TagWhereInput
-  some: TagWhereInput
-  none: TagWhereInput
-}
-
-input PostOrderByInput {
+input ProfileOrderByInput {
   id: OrderDirection
-  title: OrderDirection
+  website: OrderDirection
+  linkedin: OrderDirection
+  github: OrderDirection
+  gitlab: OrderDirection
+  createdAt: OrderDirection
 }
 
-input PostUpdateInput {
-  title: String
-  content: JSON
-  author: UserRelateToOneForUpdateInput
-  tags: TagRelateToManyForUpdateInput
+input ProfileUpdateInput {
+  name: UserRelateToOneForUpdateInput
+  website: String
+  linkedin: String
+  github: String
+  gitlab: String
+  createdAt: DateTime
 }
 
 input UserRelateToOneForUpdateInput {
@@ -191,23 +239,18 @@ input UserRelateToOneForUpdateInput {
   disconnect: Boolean
 }
 
-input TagRelateToManyForUpdateInput {
-  disconnect: [TagWhereUniqueInput!]
-  set: [TagWhereUniqueInput!]
-  create: [TagCreateInput!]
-  connect: [TagWhereUniqueInput!]
+input ProfileUpdateArgs {
+  where: ProfileWhereUniqueInput!
+  data: ProfileUpdateInput!
 }
 
-input PostUpdateArgs {
-  where: PostWhereUniqueInput!
-  data: PostUpdateInput!
-}
-
-input PostCreateInput {
-  title: String
-  content: JSON
-  author: UserRelateToOneForCreateInput
-  tags: TagRelateToManyForCreateInput
+input ProfileCreateInput {
+  name: UserRelateToOneForCreateInput
+  website: String
+  linkedin: String
+  github: String
+  gitlab: String
+  createdAt: DateTime
 }
 
 input UserRelateToOneForCreateInput {
@@ -215,49 +258,182 @@ input UserRelateToOneForCreateInput {
   connect: UserWhereUniqueInput
 }
 
-input TagRelateToManyForCreateInput {
-  create: [TagCreateInput!]
-  connect: [TagWhereUniqueInput!]
-}
-
-type Tag {
+type Organization {
   id: ID!
   name: String
-  posts(where: PostWhereInput! = {}, orderBy: [PostOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: PostWhereUniqueInput): [Post!]
-  postsCount(where: PostWhereInput! = {}): Int
+  email: String
+  website: String
+  linkedin: String
+  github: String
+  gitlab: String
+  admin(where: UserWhereInput! = {}, orderBy: [UserOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: UserWhereUniqueInput): [User!]
+  adminCount(where: UserWhereInput! = {}): Int
+  members(where: UserWhereInput! = {}, orderBy: [UserOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: UserWhereUniqueInput): [User!]
+  membersCount(where: UserWhereInput! = {}): Int
+  projects(where: ProjectWhereInput! = {}, orderBy: [ProjectOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ProjectWhereUniqueInput): [Project!]
+  projectsCount(where: ProjectWhereInput! = {}): Int
+  createdAt: DateTime
 }
 
-input TagWhereUniqueInput {
+input OrganizationWhereUniqueInput {
   id: ID
 }
 
-input TagWhereInput {
-  AND: [TagWhereInput!]
-  OR: [TagWhereInput!]
-  NOT: [TagWhereInput!]
+input OrganizationWhereInput {
+  AND: [OrganizationWhereInput!]
+  OR: [OrganizationWhereInput!]
+  NOT: [OrganizationWhereInput!]
   id: IDFilter
   name: StringFilter
-  posts: PostManyRelationFilter
+  email: StringFilter
+  website: StringFilter
+  linkedin: StringFilter
+  github: StringFilter
+  gitlab: StringFilter
+  admin: UserManyRelationFilter
+  members: UserManyRelationFilter
+  projects: ProjectManyRelationFilter
+  createdAt: DateTimeNullableFilter
 }
 
-input TagOrderByInput {
+input UserManyRelationFilter {
+  every: UserWhereInput
+  some: UserWhereInput
+  none: UserWhereInput
+}
+
+input OrganizationOrderByInput {
   id: OrderDirection
   name: OrderDirection
+  email: OrderDirection
+  website: OrderDirection
+  linkedin: OrderDirection
+  github: OrderDirection
+  gitlab: OrderDirection
+  createdAt: OrderDirection
 }
 
-input TagUpdateInput {
+input OrganizationUpdateInput {
   name: String
-  posts: PostRelateToManyForUpdateInput
+  email: String
+  website: String
+  linkedin: String
+  github: String
+  gitlab: String
+  admin: UserRelateToManyForUpdateInput
+  members: UserRelateToManyForUpdateInput
+  projects: ProjectRelateToManyForUpdateInput
+  createdAt: DateTime
 }
 
-input TagUpdateArgs {
-  where: TagWhereUniqueInput!
-  data: TagUpdateInput!
+input UserRelateToManyForUpdateInput {
+  disconnect: [UserWhereUniqueInput!]
+  set: [UserWhereUniqueInput!]
+  create: [UserCreateInput!]
+  connect: [UserWhereUniqueInput!]
 }
 
-input TagCreateInput {
+input OrganizationUpdateArgs {
+  where: OrganizationWhereUniqueInput!
+  data: OrganizationUpdateInput!
+}
+
+input OrganizationCreateInput {
   name: String
-  posts: PostRelateToManyForCreateInput
+  email: String
+  website: String
+  linkedin: String
+  github: String
+  gitlab: String
+  admin: UserRelateToManyForCreateInput
+  members: UserRelateToManyForCreateInput
+  projects: ProjectRelateToManyForCreateInput
+  createdAt: DateTime
+}
+
+input UserRelateToManyForCreateInput {
+  create: [UserCreateInput!]
+  connect: [UserWhereUniqueInput!]
+}
+
+type Project {
+  id: ID!
+  name: String
+  website: String
+  linkedin: String
+  repository: String
+  admin(where: UserWhereInput! = {}, orderBy: [UserOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: UserWhereUniqueInput): [User!]
+  adminCount(where: UserWhereInput! = {}): Int
+  members(where: UserWhereInput! = {}, orderBy: [UserOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: UserWhereUniqueInput): [User!]
+  membersCount(where: UserWhereInput! = {}): Int
+  organization: Organization
+  description: String
+}
+
+input ProjectWhereUniqueInput {
+  id: ID
+}
+
+input ProjectWhereInput {
+  AND: [ProjectWhereInput!]
+  OR: [ProjectWhereInput!]
+  NOT: [ProjectWhereInput!]
+  id: IDFilter
+  name: StringFilter
+  website: StringFilter
+  linkedin: StringFilter
+  repository: StringFilter
+  admin: UserManyRelationFilter
+  members: UserManyRelationFilter
+  organization: OrganizationWhereInput
+  description: StringFilter
+}
+
+input ProjectOrderByInput {
+  id: OrderDirection
+  name: OrderDirection
+  website: OrderDirection
+  linkedin: OrderDirection
+  repository: OrderDirection
+  description: OrderDirection
+}
+
+input ProjectUpdateInput {
+  name: String
+  website: String
+  linkedin: String
+  repository: String
+  admin: UserRelateToManyForUpdateInput
+  members: UserRelateToManyForUpdateInput
+  organization: OrganizationRelateToOneForUpdateInput
+  description: String
+}
+
+input OrganizationRelateToOneForUpdateInput {
+  create: OrganizationCreateInput
+  connect: OrganizationWhereUniqueInput
+  disconnect: Boolean
+}
+
+input ProjectUpdateArgs {
+  where: ProjectWhereUniqueInput!
+  data: ProjectUpdateInput!
+}
+
+input ProjectCreateInput {
+  name: String
+  website: String
+  linkedin: String
+  repository: String
+  admin: UserRelateToManyForCreateInput
+  members: UserRelateToManyForCreateInput
+  organization: OrganizationRelateToOneForCreateInput
+  description: String
+}
+
+input OrganizationRelateToOneForCreateInput {
+  create: OrganizationCreateInput
+  connect: OrganizationWhereUniqueInput
 }
 
 """
@@ -272,21 +448,26 @@ type Mutation {
   updateUsers(data: [UserUpdateArgs!]!): [User]
   deleteUser(where: UserWhereUniqueInput!): User
   deleteUsers(where: [UserWhereUniqueInput!]!): [User]
-  createPost(data: PostCreateInput!): Post
-  createPosts(data: [PostCreateInput!]!): [Post]
-  updatePost(where: PostWhereUniqueInput!, data: PostUpdateInput!): Post
-  updatePosts(data: [PostUpdateArgs!]!): [Post]
-  deletePost(where: PostWhereUniqueInput!): Post
-  deletePosts(where: [PostWhereUniqueInput!]!): [Post]
-  createTag(data: TagCreateInput!): Tag
-  createTags(data: [TagCreateInput!]!): [Tag]
-  updateTag(where: TagWhereUniqueInput!, data: TagUpdateInput!): Tag
-  updateTags(data: [TagUpdateArgs!]!): [Tag]
-  deleteTag(where: TagWhereUniqueInput!): Tag
-  deleteTags(where: [TagWhereUniqueInput!]!): [Tag]
+  createProfile(data: ProfileCreateInput!): Profile
+  createProfiles(data: [ProfileCreateInput!]!): [Profile]
+  updateProfile(where: ProfileWhereUniqueInput!, data: ProfileUpdateInput!): Profile
+  updateProfiles(data: [ProfileUpdateArgs!]!): [Profile]
+  deleteProfile(where: ProfileWhereUniqueInput!): Profile
+  deleteProfiles(where: [ProfileWhereUniqueInput!]!): [Profile]
+  createOrganization(data: OrganizationCreateInput!): Organization
+  createOrganizations(data: [OrganizationCreateInput!]!): [Organization]
+  updateOrganization(where: OrganizationWhereUniqueInput!, data: OrganizationUpdateInput!): Organization
+  updateOrganizations(data: [OrganizationUpdateArgs!]!): [Organization]
+  deleteOrganization(where: OrganizationWhereUniqueInput!): Organization
+  deleteOrganizations(where: [OrganizationWhereUniqueInput!]!): [Organization]
+  createProject(data: ProjectCreateInput!): Project
+  createProjects(data: [ProjectCreateInput!]!): [Project]
+  updateProject(where: ProjectWhereUniqueInput!, data: ProjectUpdateInput!): Project
+  updateProjects(data: [ProjectUpdateArgs!]!): [Project]
+  deleteProject(where: ProjectWhereUniqueInput!): Project
+  deleteProjects(where: [ProjectWhereUniqueInput!]!): [Project]
   endSession: Boolean!
   authenticateUserWithPassword(email: String!, password: String!): UserAuthenticationWithPasswordResult
-  createInitialUser(data: CreateInitialUserInput!): UserAuthenticationWithPasswordSuccess!
 }
 
 union UserAuthenticationWithPasswordResult = UserAuthenticationWithPasswordSuccess | UserAuthenticationWithPasswordFailure
@@ -300,22 +481,19 @@ type UserAuthenticationWithPasswordFailure {
   message: String!
 }
 
-input CreateInitialUserInput {
-  name: String
-  email: String
-  password: String
-}
-
 type Query {
   users(where: UserWhereInput! = {}, orderBy: [UserOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: UserWhereUniqueInput): [User!]
   user(where: UserWhereUniqueInput!): User
   usersCount(where: UserWhereInput! = {}): Int
-  posts(where: PostWhereInput! = {}, orderBy: [PostOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: PostWhereUniqueInput): [Post!]
-  post(where: PostWhereUniqueInput!): Post
-  postsCount(where: PostWhereInput! = {}): Int
-  tags(where: TagWhereInput! = {}, orderBy: [TagOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: TagWhereUniqueInput): [Tag!]
-  tag(where: TagWhereUniqueInput!): Tag
-  tagsCount(where: TagWhereInput! = {}): Int
+  profiles(where: ProfileWhereInput! = {}, orderBy: [ProfileOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ProfileWhereUniqueInput): [Profile!]
+  profile(where: ProfileWhereUniqueInput!): Profile
+  profilesCount(where: ProfileWhereInput! = {}): Int
+  organizations(where: OrganizationWhereInput! = {}, orderBy: [OrganizationOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: OrganizationWhereUniqueInput): [Organization!]
+  organization(where: OrganizationWhereUniqueInput!): Organization
+  organizationsCount(where: OrganizationWhereInput! = {}): Int
+  projects(where: ProjectWhereInput! = {}, orderBy: [ProjectOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ProjectWhereUniqueInput): [Project!]
+  project(where: ProjectWhereUniqueInput!): Project
+  projectsCount(where: ProjectWhereInput! = {}): Int
   keystone: KeystoneMeta!
   authenticatedItem: AuthenticatedItem
 }
