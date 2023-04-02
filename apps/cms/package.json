@@ -1,12 +1,13 @@
 {
-  "name": "keystone-app",
+  "name": "@find-a-project/cms",
   "version": "1.0.2",
   "private": true,
   "scripts": {
     "dev": "keystone dev",
     "start": "keystone start",
     "build": "keystone build",
-    "postinstall": "keystone build --no-ui --frozen"
+    "postinstall": "keystone build --no-ui --frozen",
+    "deploy": "keystone prisma migrate deploy"
   },
   "dependencies": {
     "@keystone-6/auth": "^7.0.0",
