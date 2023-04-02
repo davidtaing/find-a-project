@@ -17,6 +17,7 @@ model User {
   name      String    @default("")
   email     String    @unique @default("")
   password  String
+  isAdmin   Boolean   @default(false)
   posts     Post[]    @relation("Post_author")
   createdAt DateTime? @default(now())
 }

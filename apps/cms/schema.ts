@@ -16,6 +16,7 @@ import {
   password,
   timestamp,
   select,
+  checkbox,
 } from "@keystone-6/core/fields";
 
 // the document field is a more complicated field, so it has it's own package
@@ -41,6 +42,7 @@ export const lists: Lists = {
         isIndexed: "unique",
       }),
       password: password({ validation: { isRequired: true } }),
+      isAdmin: checkbox(),
 
       posts: relationship({ ref: "Post.author", many: true }),
 
