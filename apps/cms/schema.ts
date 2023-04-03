@@ -6,7 +6,7 @@
 // - https://keystonejs.com/docs/config/lists
 
 import { list } from "@keystone-6/core";
-import { allowAll } from "@keystone-6/core/access";
+import { allOperations, allowAll } from "@keystone-6/core/access";
 
 // see https://keystonejs.com/docs/fields/overview for the full list of fields
 //   this is a few common fields for an example
@@ -26,25 +26,19 @@ import { document } from "@keystone-6/fields-document";
 // when using Typescript, you can refine your types to a stricter subset by importing
 // the generated types from '.keystone/types'
 import type { Lists } from ".keystone/types";
-
-type Session = {
-  data: {
-    id: string;
-    isAdmin: boolean;
-    name: string;
-  };
-};
-
-const isAdmin = ({ session }: { session: Session }) => session?.data.isAdmin;
+import { isAdmin } from "./access";
 
 export const lists: Lists = {
   User: list({
     access: {
       operation: {
-        query: ({ session, context, listKey, operation }) => true,
-        create: isAdmin,
-        update: isAdmin,
-        delete: isAdmin,
+        ...allOperations(isAdmin),
+        query: ({ session, context, listKey, operation }) => isAdmin(session),
+      },
+      filter: {
+        query: ({ session, context, listKey, operation }) => {
+          return true;
+        },
       },
     },
 
