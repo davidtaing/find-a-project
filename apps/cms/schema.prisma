@@ -14,11 +14,11 @@ generator client {
 
 model User {
   id                      String         @id @default(cuid())
-  name                    String         @default("")
+  name                    String         @unique @default("")
   email                   String         @unique @default("")
   password                String
   isAdmin                 Boolean        @default(false)
-  profile                 Profile?       @relation("Profile_name")
+  profile                 Profile?       @relation("Profile_userId")
   organizations           Organization[] @relation("Organization_members")
   projects                Project[]      @relation("Project_members")
   createdAt               DateTime?      @default(now())
@@ -28,8 +28,8 @@ model User {
 
 model Profile {
   id        String    @id @default(cuid())
-  name      User?     @relation("Profile_name", fields: [nameId], references: [id])
-  nameId    String?   @unique @map("name")
+  userId    User?     @relation("Profile_userId", fields: [userIdId], references: [id])
+  userIdId  String?   @unique @map("userId")
   website   String    @default("")
   linkedin  String    @default("")
   github    String    @default("")
