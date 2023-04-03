@@ -38,16 +38,29 @@ var import_core2 = require("@keystone-6/core");
 
 // schema.ts
 var import_core = require("@keystone-6/core");
+var import_access = require("@keystone-6/core/access");
 var import_fields = require("@keystone-6/core/fields");
+
+// access.ts
 var isAdmin = ({ session: session2 }) => session2?.data.isAdmin;
+var canReadUsers = ({ session: session2 }) => {
+  if (!session2)
+    return false;
+  if (session2?.data.isAdmin)
+    return true;
+  return { id: { equals: session2.itemId } };
+};
+
+// schema.ts
 var lists = {
   User: (0, import_core.list)({
     access: {
       operation: {
-        query: ({ session: session2, context, listKey, operation }) => true,
-        create: isAdmin,
-        update: isAdmin,
-        delete: isAdmin
+        ...(0, import_access.allOperations)(isAdmin),
+        query: ({ session: session2, context, listKey, operation }) => true
+      },
+      filter: {
+        query: canReadUsers
       }
     },
     fields: {

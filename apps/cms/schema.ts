@@ -26,19 +26,17 @@ import { document } from "@keystone-6/fields-document";
 // when using Typescript, you can refine your types to a stricter subset by importing
 // the generated types from '.keystone/types'
 import type { Lists } from ".keystone/types";
-import { isAdmin } from "./access";
+import { canReadUsers, isAdmin } from "./access";
 
 export const lists: Lists = {
   User: list({
     access: {
       operation: {
         ...allOperations(isAdmin),
-        query: ({ session, context, listKey, operation }) => isAdmin(session),
+        query: ({ session, context, listKey, operation }) => true,
       },
       filter: {
-        query: ({ session, context, listKey, operation }) => {
-          return true;
-        },
+        query: canReadUsers,
       },
     },
 
