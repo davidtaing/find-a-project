@@ -47,7 +47,7 @@ export const lists: Lists = {
     },
 
     fields: {
-      name: text({ validation: { isRequired: true } }),
+      name: text({ validation: { isRequired: true }, isIndexed: "unique" }),
       email: text({
         validation: { isRequired: true },
         isIndexed: "unique",
@@ -55,7 +55,7 @@ export const lists: Lists = {
       password: password({ validation: { isRequired: true } }),
       isAdmin: checkbox(),
 
-      profile: relationship({ ref: "Profile.name", many: false }),
+      profile: relationship({ ref: "Profile.userId", many: false }),
       organizations: relationship({ ref: "Organization.members", many: true }),
       projects: relationship({ ref: "Project.members", many: true }),
 
@@ -77,7 +77,7 @@ export const lists: Lists = {
     },
 
     fields: {
-      name: relationship({
+      userId: relationship({
         ref: "User.profile",
         many: false,
         db: {
